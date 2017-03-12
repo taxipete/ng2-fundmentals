@@ -8,4 +8,5 @@ export * from './event-details/create-session.component';
 export * from './event-details/session-list.component';
 export * from './event-details/upvote.component';
 export * from './event-details/voter.service';
+export * from './location-validator.directive';
 export * from './shared/index';
