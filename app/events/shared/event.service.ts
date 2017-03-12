@@ -1,36 +1,39 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Subject,Observable } from 'rxjs/RX';
-
+import { Http, Response, Headers, Request, RequestOptions } from '@angular/http';
 import {IEvent, ISession} from './event.model';
 
 @Injectable()
 export class EventService {
 
+	constructor(private http: Http){}
 
+  getEvents():Observable<IEvent[]> {
+		console.log("getEvents");
+		return this.http.get("/api/events").map( (response : Response)=>
+		{
+			return <IEvent[]>response.json();
+		}).catch(this.handleError)
+  }
+
+	private handleError(error: Response){
+		return Observable.throw(error.statusText)
+	}
+
+
+/* Old \Fakes 
   getEvents():Observable<IEvent[]> {
     let subject = new Subject<IEvent[]>()
     setTimeout(() => {subject.next(EVENTS); subject.complete(); }, 100)
     return subject
   }
-
-	getEventsSync(){
-		return EVENTS;
-	}
 	getEvent(id:number):IEvent{
 		return EVENTS.find(event => event.id === id);
 	}
 
-    saveEvent(event){
-        event.id = 999;
-        event.session = [];
-        EVENTS.push(event);
-    }
-
-    updateEvent(event){
-        let index = EVENTS.findIndex(x => x.id = event.id);
-        EVENTS[index] = event;
-    }
-
+		getEventsSync(){
+		return EVENTS;
+	}
 
   searchSessions(searchTerm: string) {
     var term = searchTerm.toLocaleLowerCase();
@@ -52,6 +55,36 @@ export class EventService {
       emitter.emit(results);
     }, 100);
     return emitter;
+  }
+
+*/
+
+  getEvent(id:number):Observable<IEvent> {
+		console.log("getEvents");
+		return this.http.get("/api/events/" + id).map( (response : Response) => {
+			return <IEvent>response.json();
+		}).catch(this.handleError)
+  }
+
+    saveEvent(event):Observable<IEvent>{
+			let headers = new Headers(
+				{'Content-Type': 'application/json'}
+			);
+			let options = new RequestOptions({headers : headers})
+
+			return this.http.post('/api/events', JSON.stringify(event), options).map((response:Response)=>{
+				return response.json();
+			}).catch(this.handleError)
+    }
+
+
+
+
+  searchSessions(searchTerm: string) {
+		
+		return this.http.get("/api/sessions/search?search=" + searchTerm).map( (response : Response) => {
+			return response.json();
+		}).catch(this.handleError)
   }
 
 

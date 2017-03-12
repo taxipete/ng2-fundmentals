@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 import {
 	EventsListComponent,
@@ -10,6 +11,7 @@ import {
 	CreateEventComponent,
 	EventRouteActivator,
 	EventService,
+	EventResolver,
 	EventListResolver,
 	CreateSessionCompnent,
 	SessionsListComponent,
@@ -44,6 +46,7 @@ declare let jQuery:Object;
 		BrowserModule,
 		FormsModule,
 		ReactiveFormsModule,
+		HttpModule,
 		RouterModule.forRoot(appRoutes)
 	],
 	declarations: [
@@ -76,6 +79,7 @@ declare let jQuery:Object;
 		},
 		EventRouteActivator,
 		EventListResolver,
+		EventResolver,
 		AuthService,
 		{
 			provide : 'canDeactivateCreateEvent',

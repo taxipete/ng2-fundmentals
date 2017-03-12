@@ -13,12 +13,7 @@ import { IEvent } from './index'
 	<hr />
 	<div class="row">
 		<div class="col-md-5" *ngFor="let event of events">
-			<event-thumbnail
-				[event]="event"
-				
-				#thumbnail
-                (click)="handleThumbnailClick(event.name)"
-			>
+			<event-thumbnail [event]="event" #thumbnail >
 			</event-thumbnail>
 		</div>
 	</div>
@@ -46,9 +41,7 @@ export class EventsListComponent implements OnInit {
 
     }
 
-  handleEventClicked(data){
-	  console.log(data)
-  }
+
 
 
 }
